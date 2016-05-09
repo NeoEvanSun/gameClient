@@ -30,6 +30,10 @@ var socket = function(execute){
   this.dapai = function (groupId,cardIndex){
     ws.send('{"userId":'+userId+',"commandType":101,"content":{"groupId":'+groupId+',"operateCards":['+cardIndex+']}}');
   }
+  //抓牌
+  this.zhua = function(groupId){
+    ws.send('{"userId":'+userId+',"commandType":100,"content":{"groupId":'+groupId+'}}');
+  }
   //吃
   this.chi = function (groupId,preCard,lastCard){
     ws.send('{"userId":'+userId+',"commandType":102,"content":{"groupId":'+groupId+',"operateCards":['+preCard+','+lastCard+']}}');
@@ -37,6 +41,14 @@ var socket = function(execute){
   //碰
   this.peng = function (groupId,preCard,lastCard){
     ws.send('{"userId":'+userId+',"commandType":102,"content":{"groupId":'+groupId+',"operateCards":['+preCard+','+lastCard+']}}');
+  }
+  //杠
+  this.gang = function (){
+
+  }
+  //听
+  this.ting = function (groupId){
+      ws.send('{"userId":'+userId+',"commandType":102,"content":{"groupId":'+groupId+'}}');
   }
 }
 

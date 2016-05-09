@@ -2,6 +2,7 @@ var WebSocket = require('faye-websocket');
 var PlayerInfo = require('./core_modules/playerInfo');
 var InputMod = require('./core_modules/inputmod');
 var socket = require('./core_modules/socket');
+var staticCardNames = require("./core_modules/staticCardNames");
 
 var wsObject = new socket(execute);
 var kr = new InputMod(wsObject);
@@ -26,6 +27,7 @@ function executeOrder (data,userId){
       case 901 : order901(data,userId);break;
       case 902 : order902(data,userId);break;
       case 101 : order101(data,userId);break;
+      case 100 : order100(data,userId);break;
       default : console.log("未定义指令结果:"+JSON.stringify(data));
     }
   }else{
@@ -66,6 +68,27 @@ function order902(data,userId){
 //打牌的响应
 function order101(data,userId){
   console.log("有人打牌");
+  console.log(JSON.stringify(data));
+  //如果自己是下一个打牌的人
+  if(userId == data.nextUserId){
+    kr.zhuaPai();
+  }else{
+    console.log("请等待其他玩家打牌");
+  }
+}
+//抓牌响应，进入打牌状态
+function order100(data,userId){
+  if(data.userId == userId){
+    console.log("摸到一张 "+staticCardNames[data.operateCards[0]]);
+    var userCardVm = data.mycardVm;
+    if(userCardVm){
+      var playerInfo = new PlayerInfo(userCardVm);
+      playerInfo.showStatus();
+      kr.enterDapai(userCardVm.cards);
+    }
+  }else{
+    console.log("玩家"+data.userId+"正在思考");
+  }
 }
 
 function formatData (dataString){

@@ -42,7 +42,7 @@ var inputmod = function (wsObject){
     rl.question("请输入要打哪一张牌的index:",function(cmd){
        if(/\d+/.test(cmd)){
          if(cards[cmd]>0){
-           console.log("打出一张-"+staticCardNames[cmd]);
+           console.log("打出一张-【"+staticCardNames[cmd]+"】");
            wsObject.dapai(groupId,cmd);
          }else{
            console.log("你没有这张牌");
@@ -53,6 +53,10 @@ var inputmod = function (wsObject){
          _this.enterDapai(cards);
        }
     })
+  }
+
+  this.zhuaPai = function (){
+    wsObject.zhua(groupId);
   }
 
 }
