@@ -67,7 +67,7 @@ function order902(data,userId){
 }
 //打牌的响应
 function order101(data,userId){
-  console.log("有人打牌");
+  console.log("玩家"+data.userId+"打出一张【"+staticCardNames[data.operateCards[0]]+"】");
   console.log(JSON.stringify(data));
   //如果自己是下一个打牌的人
   if(userId == data.nextUserId){
