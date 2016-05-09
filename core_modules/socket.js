@@ -30,6 +30,14 @@ var socket = function(execute){
   this.dapai = function (groupId,cardIndex){
     ws.send('{"userId":'+userId+',"commandType":101,"content":{"groupId":'+groupId+',"operateCards":['+cardIndex+']}}');
   }
+  //吃
+  this.chi = function (groupId,preCard,lastCard){
+    ws.send('{"userId":'+userId+',"commandType":102,"content":{"groupId":'+groupId+',"operateCards":['+preCard+','+lastCard+']}}');
+  }
+  //碰
+  this.peng = function (groupId,preCard,lastCard){
+    ws.send('{"userId":'+userId+',"commandType":102,"content":{"groupId":'+groupId+',"operateCards":['+preCard+','+lastCard+']}}');
+  }
 }
 
 module.exports = socket;
