@@ -9,6 +9,26 @@ var PlayerInfo = function(userCardVm){
     case 3:postionName = "北";break;
     default:
   }
+  var seqsString = "";
+  if(userCardVm.eatSequences && userCardVm.eatSequences.length >0 ){
+    for(var i =0;i<userCardVm.eatSequences.length;i++){
+      seqsString += staticCardNames[userCardVm.eatSequences[i][0]];
+      seqsString += staticCardNames[userCardVm.eatSequences[i][1]];
+      seqsString += staticCardNames[userCardVm.eatSequences[i][2]];
+      seqsString += "-"
+    }
+  }
+  if(userCardVm.pengSequences && userCardVm.pengSequences.length >0 ){
+    for(var i =0;i<userCardVm.pengSequences.length;i++){
+      seqsString += staticCardNames[userCardVm.pengSequences[i][0]];
+      seqsString += staticCardNames[userCardVm.pengSequences[i][1]];
+      seqsString += staticCardNames[userCardVm.pengSequences[i][2]];
+      seqsString += "-"
+    }
+  }
+  if(seqsString!=""){
+    seqsString.substring(0,seqsString.length-1);
+  }
 
   var cards = userCardVm.cards;
   var cardsStatus = "[";
@@ -25,6 +45,7 @@ var PlayerInfo = function(userCardVm){
 
   this.showStatus = function(){
     console.log("当前玩家坐位:"+postionName+",牌数 x"+cardsNum);
+    console.log("静态牌:"+seqsString);
     console.log(cardsStatus);
   }
 }

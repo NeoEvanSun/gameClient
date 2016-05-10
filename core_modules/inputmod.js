@@ -83,15 +83,16 @@ var inputmod = function (wsObject){
   //影响的指令在此发送
   this.sendEffectOrders = function (commandObject,commandTypeTips){
     var _this = this;
-    console.log(commandObject.effects);
     if(commandObject && commandObject.effects && commandObject.effects.length>0){
       var questionStr = "选择用哪组牌进行操作(";
       for(var i =0;i<commandObject.effects.length;i++){
         questionStr += (i+1)+".";
-        questionStr += commandObject.effects[i].toString();
-        // for(var j=0;j<commandObject.effects[i];j++){
-        //   questionStr += staticCardNames[commandObject.effects[i][j]];
-        // }
+        questionStr += staticCardNames[commandObject.effects[i][0]];
+        questionStr += staticCardNames[commandObject.effects[i][1]];
+        if(commandObject.effects[i][2]){
+          questionStr += staticCardNames[commandObject.effects[i][2]];
+        }
+        questionStr += " ";
       }
       questionStr+=",0.返回上步操作)";
       rl.question(questionStr,function(cmd){
@@ -106,6 +107,9 @@ var inputmod = function (wsObject){
           _this.sendEffectOrders(commandObject,commandTypeTips);
         }
       });
+    }else if(commandObject.commandTypeCode == 107){
+        console.log("选择过操作");
+        wsObject.doEffect(groupId,commandObject.commandTypeCode);
     }else{
       console.log("没有完整的可发送的指令对象");
       _this.effect(commandTypeTips);

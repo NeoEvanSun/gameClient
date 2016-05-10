@@ -28,6 +28,12 @@ function executeOrder (data,userId){
       case 902 : order902(data,userId);break;
       case 101 : order101(data,userId);break;
       case 100 : order100(data,userId);break;
+      case 102 : orderChiPeng(data,userId);break;
+      case 103 : orderChiPeng(data,userId);break;
+      case 104 : orderUndefind(data,userId);break;
+      case 105 : orderUndefind(data,userId);break;
+      case 106 : orderUndefind(data,userId);break;
+      case 107 : order107(data,userId);break;
       default : console.log("未定义指令结果:"+JSON.stringify(data));
     }
   }else{
@@ -59,6 +65,7 @@ function order902(data,userId){
     if(userCardVm.zhuang){
       kr.enterDapai(userCardVm.cards);
     }else{
+      seeSelf(data);
       console.log("请等待其他玩家打牌");
     }
   }else{
@@ -68,26 +75,59 @@ function order902(data,userId){
 //打牌的响应
 function order101(data,userId){
   console.log("玩家"+data.userId+"打出一张【"+staticCardNames[data.operateCards[0]]+"】");
-  console.log(JSON.stringify(data));
+  console.log("打牌响应报文:"+JSON.stringify(data));
   //如果有提示性操作的话
   if(!data.allNoneTips && data.commandTypeTips){
     if(data.commandTypeTips.length ==0){
       console.log("其他玩家有操作");
+      seeSelf(data);
     }else{
-      effectExecute(data.commandTypeTips,userId);
+      var innerflag = false;
+      for(var pro in data.commandTypeTips){
+        innerflag = true;
+      }
+      if(innerflag){
+          effectExecute(data.commandTypeTips,userId);
+      }else{
+          seeSelf(data);
+          console.log("其他人有动作");
+      }
     }
-  }
-  //如果自己是下一个打牌的人
-  else if(userId == data.nextUserId){
+  }else if(userId == data.nextUserId){
+    //如果自己是下一个打牌的人
     kr.zhuaPai();
   }else{
+    seeSelf(data);
     console.log("请等待其他玩家打牌");
   }
 }
 //抓牌响应，进入打牌状态
 function order100(data,userId){
+  console.log("摸牌响应报文:"+JSON.stringify(data));
   if(data.userId == userId){
     console.log("摸到一张 "+staticCardNames[data.operateCards[0]]);
+    var userCardVm = data.mycardVm;
+    if(userCardVm){
+      var playerInfo = new PlayerInfo(userCardVm);
+      playerInfo.showStatus();
+      kr.enterDapai(userCardVm.cards);
+    }
+  }else{
+    seeSelf(data);
+    console.log("玩家"+data.userId+"正在思考");
+
+  }
+}
+
+//如果有影响的话，会执行该影响的操作
+function effectExecute(commandTypeTips,userId){
+  if(commandTypeTips){
+    kr.effect(commandTypeTips);
+  }
+}
+
+function orderChiPeng(data,userId){
+  if(data.userId == userId){
     var userCardVm = data.mycardVm;
     if(userCardVm){
       var playerInfo = new PlayerInfo(userCardVm);
@@ -99,11 +139,17 @@ function order100(data,userId){
   }
 }
 
-//如果有影响的话，会执行该影响的操作
-function effectExecute(commandTypeTips,userId){
-  if(commandTypeTips){
-    kr.effect(commandTypeTips);
+function orderUndefind(data,userId){
+  console.log("未细化指令集:"+JSON.stringify(data))
+  if(data.nextUserId == userId){
+      kr.zhuaPai();
+  }else{
+      console.log("请等待其他玩家打牌");
   }
+}
+
+function order107(data,userId){
+    kr.zhuaPai();
 }
 
 function formatData (dataString){
@@ -114,4 +160,12 @@ function formatData (dataString){
     console.log("error:"+JSON.stringify(e));
   }
   return result;
+}
+
+function seeSelf (data){
+  var userCardVm = data.mycardVm;
+  if(userCardVm){
+    var playerInfo = new PlayerInfo(userCardVm);
+    playerInfo.showStatus();
+  }
 }
