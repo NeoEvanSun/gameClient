@@ -34,21 +34,20 @@ var socket = function(execute){
   this.zhua = function(groupId){
     ws.send('{"userId":'+userId+',"commandType":100,"content":{"groupId":'+groupId+'}}');
   }
-  //吃
-  this.chi = function (groupId,preCard,lastCard){
-    ws.send('{"userId":'+userId+',"commandType":102,"content":{"groupId":'+groupId+',"operateCards":['+preCard+','+lastCard+']}}');
-  }
-  //碰
-  this.peng = function (groupId,preCard,lastCard){
-    ws.send('{"userId":'+userId+',"commandType":102,"content":{"groupId":'+groupId+',"operateCards":['+preCard+','+lastCard+']}}');
-  }
-  //杠
-  this.gang = function (){
-
-  }
-  //听
-  this.ting = function (groupId){
-      ws.send('{"userId":'+userId+',"commandType":102,"content":{"groupId":'+groupId+'}}');
+  //吃碰杠听胡过
+  this.doEffect = function (groupId,commandType,cardsArray){
+    var requestStr = '{'
+    requestStr += '"userId":'+userId+',';
+    requestStr += '"commandType":'+commandType+',';
+    requestStr += '"content":{"groupId":'+groupId+",";
+    if(cardsArray && cardsArray.length>0){
+      requestStr += '"operateCards":['+cardsArray.toString()+"],";
+    }
+    requestStr = requestStr.substring(0,requestStr.length-1);
+    requestStr += "}"
+    requestStr += "}"
+    console.log("发送影响请求报文为:"+requestStr);
+    ws.send(requestStr);
   }
 }
 

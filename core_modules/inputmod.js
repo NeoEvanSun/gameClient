@@ -1,5 +1,6 @@
 var readline = require("readline");
 var staticCardNames = require("./staticCardNames");
+var commandDefind = require('./commandDefind');
 var inputmod = function (wsObject){
   var rl = readline.createInterface({
   	input:process.stdin,
@@ -55,8 +56,60 @@ var inputmod = function (wsObject){
     })
   }
 
+  this.effect = function(commandTypeTips){
+    var _this = this;
+    var askInfo = "请选择操作 ";
+    var commandList = [];
+    for(var commandId in commandTypeTips){
+       commandList.push(commandId);
+       askInfo += commandDefind.getTipName(commandId);
+       askInfo += " ";
+    }
+    askInfo += ":";
+    rl.question(askInfo,function(cmd){
+      if(commandList.indexOf(cmd)!=-1){
+        _this.sendEffectOrders(commandTypeTips[cmd],commandTypeTips);
+      }else{
+        console.log("指令错误，请输入正确指令");
+        _this.effect(commandTypeTips);
+      }
+    });
+  }
+
   this.zhuaPai = function (){
     wsObject.zhua(groupId);
+  }
+
+  //影响的指令在此发送
+  this.sendEffectOrders = function (commandObject,commandTypeTips){
+    var _this = this;
+    console.log(commandObject.effects);
+    if(commandObject && commandObject.effects && commandObject.effects.length>0){
+      var questionStr = "选择用哪组牌进行操作(";
+      for(var i =0;i<commandObject.effects.length;i++){
+        questionStr += (i+1)+".";
+        questionStr += commandObject.effects[i].toString();
+        // for(var j=0;j<commandObject.effects[i];j++){
+        //   questionStr += staticCardNames[commandObject.effects[i][j]];
+        // }
+      }
+      questionStr+=",0.返回上步操作)";
+      rl.question(questionStr,function(cmd){
+        if(/\d+/.test(cmd)){
+          if(cmd == 0){
+            _this.effect(commandTypeTips);
+          }else{
+            wsObject.doEffect(groupId,commandObject.commandTypeCode,commandObject.effects[parseInt(cmd)-1]);
+          }
+        }else{
+          console.log("请输入正确指令");
+          _this.sendEffectOrders(commandObject,commandTypeTips);
+        }
+      });
+    }else{
+      console.log("没有完整的可发送的指令对象");
+      _this.effect(commandTypeTips);
+    }
   }
 
 }

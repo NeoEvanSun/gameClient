@@ -69,8 +69,16 @@ function order902(data,userId){
 function order101(data,userId){
   console.log("玩家"+data.userId+"打出一张【"+staticCardNames[data.operateCards[0]]+"】");
   console.log(JSON.stringify(data));
+  //如果有提示性操作的话
+  if(!data.allNoneTips && data.commandTypeTips){
+    if(data.commandTypeTips.length ==0){
+      console.log("其他玩家有操作");
+    }else{
+      effectExecute(data.commandTypeTips,userId);
+    }
+  }
   //如果自己是下一个打牌的人
-  if(userId == data.nextUserId){
+  else if(userId == data.nextUserId){
     kr.zhuaPai();
   }else{
     console.log("请等待其他玩家打牌");
@@ -88,6 +96,13 @@ function order100(data,userId){
     }
   }else{
     console.log("玩家"+data.userId+"正在思考");
+  }
+}
+
+//如果有影响的话，会执行该影响的操作
+function effectExecute(commandTypeTips,userId){
+  if(commandTypeTips){
+    kr.effect(commandTypeTips);
   }
 }
 
