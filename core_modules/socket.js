@@ -1,6 +1,6 @@
 var WebSocket = require('faye-websocket');
 var socket = function(execute){
-  var ws = new WebSocket.Client('ws://127.0.0.1:8080/ws');
+  var ws = new WebSocket.Client('ws://45.78.9.171:8080/ws');
   var userId = parseInt(Math.random()*10000)+"";
   ws.on("open",function(event){
   });
@@ -48,6 +48,14 @@ var socket = function(execute){
     requestStr += "}"
     console.log("发送影响请求报文为:"+requestStr);
     ws.send(requestStr);
+  }
+  this.xulian = function (){
+    var requestStr = '{"userId":'+userId+',"commandType":930}';
+    console.log("发送续连请求报文为:"+requestStr);
+    ws.send(requestStr);
+  }
+  this.setUserId = function(arg){
+    userId = arg;
   }
 }
 

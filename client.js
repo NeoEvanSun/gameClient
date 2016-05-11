@@ -26,11 +26,12 @@ function executeOrder (data,userId){
       case 900 : order900(data,userId);break;
       case 901 : order901(data,userId);break;
       case 902 : order902(data,userId);break;
-      case 101 : order101(data,userId);break;
+      case 930 : order930(data,userId);break;
       case 100 : order100(data,userId);break;
+      case 101 : order101(data,userId);break;
       case 102 : orderChiPeng(data,userId);break;
       case 103 : orderChiPeng(data,userId);break;
-      case 104 : orderUndefind(data,userId);break;
+      case 104 : order104(data,userId);break;
       case 105 : orderUndefind(data,userId);break;
       case 106 : orderUndefind(data,userId);break;
       case 107 : order107(data,userId);break;
@@ -110,12 +111,19 @@ function order100(data,userId){
     if(userCardVm){
       var playerInfo = new PlayerInfo(userCardVm);
       playerInfo.showStatus();
-      kr.enterDapai(userCardVm.cards);
+      var innerflag = false;
+      for(var pro in data.commandTypeTips){
+        innerflag = true;
+      }
+      if(innerflag){
+          effectExecute(data.commandTypeTips,userId);
+      }else{
+          kr.enterDapai(userCardVm.cards);
+      }
     }
   }else{
     seeSelf(data);
     console.log("玩家"+data.userId+"正在思考");
-
   }
 }
 
@@ -139,8 +147,25 @@ function orderChiPeng(data,userId){
   }
 }
 
+function order104(data,userId){
+  if(data.userId == userId){
+    kr.zhuaPai();
+  }else{
+    console.log("请等待杠牌玩家打牌");
+  }
+}
+
 function orderUndefind(data,userId){
   console.log("未细化指令集:"+JSON.stringify(data))
+  if(data.nextUserId == userId){
+      kr.zhuaPai();
+  }else{
+      console.log("请等待其他玩家打牌");
+  }
+}
+
+function order930(data,userId){
+  console.log("续连指令集:"+JSON.stringify(data))
   if(data.nextUserId == userId){
       kr.zhuaPai();
   }else{

@@ -12,7 +12,7 @@ var inputmod = function (wsObject){
 
   this.askAction = function (){
     var _this = this;
-  	rl.question("玩家["+wsObject.getUserId()+"],请问你想执行什么操作? (1.创建房间 2.加入房间):",function(cmd){
+  	rl.question("玩家["+wsObject.getUserId()+"],请问你想执行什么操作? (1.创建房间 2.加入房间 3.断线续连):",function(cmd){
   		if(cmd == 1){
   			//创建
   			wsObject.createGroup();
@@ -22,6 +22,20 @@ var inputmod = function (wsObject){
   			_this.joinGroup();
   		}
   	});
+  }
+
+  this.connectAgain = function(){
+    var _this = this;
+    rl.question("重新续连请输入上一次的用户ID及房间号用'-'号分隔:",function(cmd){
+      if(/\d+\-\d+/.test(cmd)){
+        var params = cmd.split("-");
+        wsObject.setUserId(params[0]);
+        wsObject.xulian();
+      }else{
+        console.log("请按提示输入正确格式");
+        _this.connectAgain();
+      }
+    })
   }
 
   this.joinGroup = function(){
