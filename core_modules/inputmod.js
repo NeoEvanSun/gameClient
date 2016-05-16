@@ -155,7 +155,8 @@ var inputmod = function (wsObject){
       questionStr += staticCardNames[leftCardIndex];
       questionStr += "】";
       questionStr += "胡 ->"
-      for(var huCardIndex in huCardIndexes){
+      for(var j = 0 ;j<huCardIndexes.length;j++){
+        var huCardIndex = huCardIndexes[j];
         questionStr += staticCardNames[huCardIndex];
       }
       questionStr += "\n";
