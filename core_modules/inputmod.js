@@ -165,7 +165,8 @@ var inputmod = function (wsObject){
     rl.question(questionStr,function(cmd){
       if(/\d+/.test(cmd)){
         if(cmd == 0){
-          _this.sendEffectOrders(commandObject,commandTypeTips);
+          //_this.sendEffectOrders(commandObject,commandTypeTips);
+          _this.effect(commandTypeTips);
         }else{
           wsObject.chiPengTing(groupId,commandObject.effects[parseInt(cmd) - 1]);
         }

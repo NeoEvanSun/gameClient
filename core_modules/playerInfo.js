@@ -26,6 +26,31 @@ var PlayerInfo = function(userCardVm){
       seqsString += "-"
     }
   }
+
+  if(userCardVm.outGangCards && userCardVm.outGangCards.length >0){
+    for(var i =0;i<userCardVm.outGangCards.length;i++){
+      seqsString += staticCardNames[userCardVm.outGangCards[i][0]];
+      seqsString += staticCardNames[userCardVm.outGangCards[i][1]];
+      seqsString += staticCardNames[userCardVm.outGangCards[i][2]];
+      if(userCardVm.outGangCards[i][3]){
+        seqsString += staticCardNames[userCardVm.outGangCards[i][3]];
+      }
+      seqsString += "-"
+    }
+  }
+
+  if(userCardVm.inGangCards && userCardVm.inGangCards.length >0){
+    for(var i =0;i<userCardVm.inGangCards.length;i++){
+      seqsString += staticCardNames[userCardVm.inGangCards[i][0]];
+      seqsString += staticCardNames[userCardVm.inGangCards[i][1]];
+      seqsString += staticCardNames[userCardVm.inGangCards[i][2]];
+      if(userCardVm.inGangCards[i][3]){
+        seqsString += staticCardNames[userCardVm.inGangCards[i][3]];
+      }
+      seqsString += "-"
+    }
+  }
+
   if(seqsString!=""){
     seqsString.substring(0,seqsString.length-1);
   }
@@ -44,10 +69,24 @@ var PlayerInfo = function(userCardVm){
   cardsStatus += "]";
 
   var tinged = userCardVm.tinged;
+  var zhuang = userCardVm.zhuang;
+  var auto = userCardVm.auto;
 
   this.showStatus = function(){
-    console.log("当前玩家坐位:"+postionName+",牌数 x"+cardsNum);
-    console.log("听:"+tinged);
+    var str = "当前玩家坐位:"+postionName+"风 ";
+    str += " 牌数 x"+cardsNum;
+    if(zhuang){
+      str += " 庄家 ";
+    }
+    if(auto){
+      str += " 托管中 ";
+    }
+
+    if(tinged){
+      str += " 已上听 ";
+    }
+
+    console.log(str);
     console.log("静态牌:"+seqsString);
     console.log(cardsStatus);
   }

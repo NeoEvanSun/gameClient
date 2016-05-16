@@ -35,6 +35,7 @@ function executeOrder (data,userId){
       case 105 : orderTingDa(data,userId);break;
       case 106 : orderTingDa(data,userId);break;
       case 107 : orderTingDa(data,userId);break;
+      case 108 : orderTingDaResult(data,userId);break;
       case 207 : order207(data,userId);break;
       default : console.log("未定义指令结果:"+JSON.stringify(data));
     }
@@ -203,4 +204,10 @@ function orderTingDa(data,userId){
   }else{
    console.log("返回值错误");
   }
+}
+
+function orderTingDaResult(data,userId){
+  console.log("听打指令返回值:"+JSON.stringify(data));
+  seeSelf(data);
+  console.log("玩家"+data.userId+"正在思考");
 }
