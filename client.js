@@ -32,9 +32,10 @@ function executeOrder (data,userId){
       case 102 : orderChiPeng(data,userId);break;
       case 103 : orderChiPeng(data,userId);break;
       case 104 : order104(data,userId);break;
-      case 105 : orderUndefind(data,userId);break;
-      case 106 : orderUndefind(data,userId);break;
-      case 107 : order107(data,userId);break;
+      case 105 : orderTingDa(data,userId);break;
+      case 106 : orderTingDa(data,userId);break;
+      case 107 : orderTingDa(data,userId);break;
+      case 207 : order207(data,userId);break;
       default : console.log("未定义指令结果:"+JSON.stringify(data));
     }
   }else{
@@ -173,7 +174,7 @@ function order930(data,userId){
   }
 }
 
-function order107(data,userId){
+function order207(data,userId){
     kr.zhuaPai();
 }
 
@@ -192,5 +193,14 @@ function seeSelf (data){
   if(userCardVm){
     var playerInfo = new PlayerInfo(userCardVm);
     playerInfo.showStatus();
+  }
+}
+
+function orderTingDa(data,userId){
+  console.log("听打指令:"+JSON.stringify(data));
+  if(data.operateCards){
+    kr.tingDaPai(data.operateCards);
+  }else{
+   console.log("返回值错误");
   }
 }

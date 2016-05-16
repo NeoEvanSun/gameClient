@@ -98,30 +98,36 @@ var inputmod = function (wsObject){
   this.sendEffectOrders = function (commandObject,commandTypeTips){
     var _this = this;
     if(commandObject && commandObject.effects && commandObject.effects.length>0){
-      var questionStr = "选择用哪组牌进行操作(";
-      for(var i =0;i<commandObject.effects.length;i++){
-        questionStr += (i+1)+".";
-        questionStr += staticCardNames[commandObject.effects[i][0]];
-        questionStr += staticCardNames[commandObject.effects[i][1]];
-        if(commandObject.effects[i][2]){
-          questionStr += staticCardNames[commandObject.effects[i][2]];
-        }
-        questionStr += " ";
-      }
-      questionStr+=",0.返回上步操作)";
-      rl.question(questionStr,function(cmd){
-        if(/\d+/.test(cmd)){
-          if(cmd == 0){
-            _this.effect(commandTypeTips);
-          }else{
-            wsObject.doEffect(groupId,commandObject.commandTypeCode,commandObject.effects[parseInt(cmd)-1]);
+
+      if(commandObject.commandTypeCode == 106 || commandObject.commandTypeCode == 107) {
+        _this.executeChiPengTing(commandObject, commandTypeTips)
+      }else{
+        var questionStr = "选择用哪组牌进行操作(";
+        for(var i =0;i<commandObject.effects.length;i++){
+          questionStr += (i+1)+".";
+          questionStr += staticCardNames[commandObject.effects[i][0]];
+          questionStr += staticCardNames[commandObject.effects[i][1]];
+          if(commandObject.effects[i][2]){
+            questionStr += staticCardNames[commandObject.effects[i][2]];
           }
-        }else{
-          console.log("请输入正确指令");
-          _this.sendEffectOrders(commandObject,commandTypeTips);
+          questionStr += " ";
         }
-      });
-    }else if(commandObject.commandTypeCode == 107){
+        questionStr+=",0.返回上步操作)";
+        rl.question(questionStr,function(cmd){
+          if(/\d+/.test(cmd)){
+            if(cmd == 0){
+              _this.effect(commandTypeTips);
+            }else{
+              wsObject.doEffect(groupId,commandObject.commandTypeCode,commandObject.effects[parseInt(cmd)-1]);
+            }
+          }else{
+            console.log("请输入正确指令");
+            _this.sendEffectOrders(commandObject,commandTypeTips);
+          }
+        });
+      }
+
+    }else if(commandObject.commandTypeCode == 207){
         console.log("选择过操作");
         wsObject.doEffect(groupId,commandObject.commandTypeCode);
     }else{
@@ -130,6 +136,68 @@ var inputmod = function (wsObject){
     }
   }
 
+  //处理吃碰听
+  this.executeChiPengTing = function (commandObject,commandTypeTips){
+    var _this = this;
+    var questionStr = "选择用哪组牌进行吃碰听操作(\n";
+
+    for(var i =0;i<commandObject.effects.length;i++){
+      var effect = commandObject.effects[i];
+      var costCardIndexes = effect.costCardIndexes;
+      var leftCardIndex = effect.leftCardIndex;
+      var huCardIndexes = effect.huCardIndexes;
+      questionStr += (i+1)+". 用【";
+      questionStr += staticCardNames[costCardIndexes[0]];
+      questionStr += "-";
+      questionStr += staticCardNames[costCardIndexes[1]];
+      questionStr += "】";
+      questionStr += "打【";
+      questionStr += staticCardNames[leftCardIndex];
+      questionStr += "】";
+      questionStr += "胡 ->"
+      for(var huCardIndex in huCardIndexes){
+        questionStr += staticCardNames[huCardIndex];
+      }
+      questionStr += "\n";
+    }
+    questionStr+=",0.返回上步操作)";
+    rl.question(questionStr,function(cmd){
+      if(/\d+/.test(cmd)){
+        if(cmd == 0){
+          _this.sendEffectOrders(commandObject,commandTypeTips);
+        }else{
+          wsObject.chiPengTing(groupId,commandObject.effects[parseInt(cmd) - 1]);
+        }
+      }else{
+        console.log("请输入正确指令");
+        _this.executeChiPengTing(commandObject,commandTypeTips);
+      }
+    });
+  }
+
+  //听打牌使用如下
+  this.tingDaPai = function (operateCards){
+    var _this = this;
+    var questionStr = "进入听打阶段,请选择一张牌打出";
+    var cmdList = [];
+    for(var i = 0 ;i<operateCards.length;i++){
+      var selectCard = operateCards[i];
+      questionStr += (i+1)+".";
+      questionStr += "【"+staticCardNames[parseInt(selectCard)]+"】 ";
+      cmdList.push(parseInt(i+1));
+    }
+
+    rl.question(questionStr,function(cmd){
+      if(/\d+/.test(cmd) && cmdList.indexOf(parseInt(cmd)!=-1)){
+        console.log("打出一张-【"+staticCardNames[operateCards[parseInt(cmd)-1]]+"】");
+        wsObject.tingDaPai(groupId,operateCards[parseInt(cmd)-1]);
+      }else{
+        console.log("请输入正确的指令");
+        _this.tingDaPai(operateCards);
+      }
+    })
+
+  }
 }
 
 module.exports = inputmod;

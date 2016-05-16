@@ -43,8 +43,11 @@ var PlayerInfo = function(userCardVm){
   }
   cardsStatus += "]";
 
+  var tinged = userCardVm.tinged;
+
   this.showStatus = function(){
     console.log("当前玩家坐位:"+postionName+",牌数 x"+cardsNum);
+    console.log("听:"+tinged);
     console.log("静态牌:"+seqsString);
     console.log(cardsStatus);
   }

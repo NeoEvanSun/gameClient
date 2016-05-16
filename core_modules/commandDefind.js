@@ -4,8 +4,11 @@ var commandList = function(){
     "103":"碰(103)",
     "104":"杠(104)",
     "105":"听(105)",
-    "106":"胡(106)",
-    "107":"过(107)"
+    "106":"吃听(106)",
+    "107":"碰听(107)",
+    "206":"胡(206)",
+    "207":"过(207)",
+
   }
   this.getTipName = function(commandId){
     return commands[commandId];
