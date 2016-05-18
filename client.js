@@ -37,6 +37,7 @@ function executeOrder (data,userId){
       case 107 : orderTingDa(data,userId);break;
       case 108 : orderTingDaResult(data,userId);break;
       case 207 : order207(data,userId);break;
+      case 930 : order930(data,userId);break;
       default : console.log("未定义指令结果:"+JSON.stringify(data));
     }
   }else{
@@ -208,6 +209,13 @@ function orderTingDa(data,userId){
 
 function orderTingDaResult(data,userId){
   console.log("听打指令返回值:"+JSON.stringify(data));
+  seeSelf(data);
+  console.log("玩家"+data.userId+"正在思考");
+}
+
+//重连响应处理
+function order930(data,userId){
+  console.log("续连指令返回值:"+JSON.stringify(data));
   seeSelf(data);
   console.log("玩家"+data.userId+"正在思考");
 }

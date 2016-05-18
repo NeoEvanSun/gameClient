@@ -20,7 +20,9 @@ var inputmod = function (wsObject){
   		}else if(cmd == 2){
   			//加入房间
   			_this.joinGroup();
-  		}
+  		}else if(cmd == 3){
+        _this.connectAgain();
+      }
   	});
   }
 
