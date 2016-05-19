@@ -177,7 +177,13 @@ function order930(data,userId){
 }
 
 function order207(data,userId){
-    kr.zhuaPai();
+  console.log("过牌指令集:"+JSON.stringify(data));
+  console.log(data.nextUserId == userId);
+  if(data.nextUserId == userId){
+      kr.zhuaPai();
+  }else{
+      console.log("请等待其他玩家打牌");
+  }
 }
 
 function formatData (dataString){
