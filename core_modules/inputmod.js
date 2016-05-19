@@ -100,8 +100,9 @@ var inputmod = function (wsObject){
   this.sendEffectOrders = function (commandObject,commandTypeTips){
     var _this = this;
     if(commandObject && commandObject.effects && commandObject.effects.length>0){
-
-      if(commandObject.commandTypeCode == 106 || commandObject.commandTypeCode == 107) {
+      if(commandObject.commandTypeCode == 105 || commandObject.commandTypeCode ==206){
+        wsObject.doEffect(groupId,commandObject.commandTypeCode);
+      }else if(commandObject.commandTypeCode == 106 || commandObject.commandTypeCode == 107) {
         _this.executeChiPengTing(commandObject, commandTypeTips)
       }else{
         var questionStr = "选择用哪组牌进行操作(";
