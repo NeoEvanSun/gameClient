@@ -61,19 +61,29 @@ function order901(data,userId){
 //开局
 function order902(data,userId){
   console.log("开局成功"+JSON.stringify(data));
-  var userCardVm = data.mycardVm;
-  if(userCardVm){
-    var playerInfo = new PlayerInfo(userCardVm);
-    playerInfo.showStatus();
-    //如果是庄家，准备打牌
-    if(userCardVm.zhuang){
-      kr.enterDapai(userCardVm.cards);
-    }else{
+  //如果有提示性操作的话
+  if(!data.allNoneTips && data.commandTypeTips){
+    if(data.commandTypeTips.length ==0){
+      console.log("其他玩家有操作");
       seeSelf(data);
-      console.log("请等待其他玩家打牌");
+    }else{
+      var innerflag = false;
+      for(var pro in data.commandTypeTips){
+        innerflag = true;
+      }
+      if(innerflag){
+        effectExecute(data.commandTypeTips,userId);
+      }else{
+        seeSelf(data);
+        console.log("其他人有动作");
+      }
     }
+  }else if(userId == data.nextUserId){
+    //如果自己是下一个打牌的人
+    kr.zhuaPai();
   }else{
-    console.log("未获取到当前用户的牌:"+JSON.stringify(data));
+    seeSelf(data);
+    console.log("请等待其他玩家打牌");
   }
 }
 //打牌的响应
@@ -138,6 +148,7 @@ function effectExecute(commandTypeTips,userId){
 }
 
 function orderChiPeng(data,userId){
+  console.log("吃碰牌响应报文:"+JSON.stringify(data));
   if(data.userId == userId){
     var userCardVm = data.mycardVm;
     if(userCardVm){
