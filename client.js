@@ -150,7 +150,7 @@ function effectExecute(commandTypeTips,userId){
 
 function orderChiPeng(data,userId){
   console.log("吃碰牌响应报文:"+JSON.stringify(data));
-  if(data.userId == userId){
+  if(data.nextUserId == userId){
     var userCardVm = data.mycardVm;
     if(userCardVm){
       var playerInfo = new PlayerInfo(userCardVm);
