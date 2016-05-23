@@ -163,7 +163,7 @@ function orderChiPeng(data,userId){
 }
 
 function order104(data,userId){
-  if(data.userId == userId){
+  if(data.nextUserId == userId){
     kr.zhuaPai();
   }else{
     console.log("请等待杠牌玩家打牌");
