@@ -239,5 +239,25 @@ function orderTingDaResult(data,userId){
 function order930(data,userId){
   console.log("续连指令返回值:"+JSON.stringify(data));
   seeSelf(data);
-  console.log("玩家"+data.userId+"正在思考");
+  if(!data.allNoneTips && data.commandTypeTips){
+    var innerflag = false;
+    for(var pro in data.commandTypeTips){
+      innerflag = true;
+    }
+    if(innerflag){
+      effectExecute(data.commandTypeTips,userId);
+    }else{
+      console.log("续连返回结果有误");
+    }
+  }else if(data.nextUserId == userId){
+    if(data.currentUserId == userId && data.currentCommandType == 100){
+        var userCardVm = data.mycardVm;
+        kr.enterDapai(userCardVm.cards);
+    }else{
+        kr.zhuaPai();
+    }
+  }else{
+    console.log("到玩家"+data.nextUserId+"玩了");
+  }
+
 }
