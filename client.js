@@ -80,6 +80,7 @@ function order902(data,userId){
     }
   }else if(userId == data.nextUserId){
     //如果自己是下一个打牌的人
+    console.log(userId == data.nextUserId);
     kr.zhuaPai();
   }else{
     seeSelf(data);
@@ -118,7 +119,7 @@ function order101(data,userId){
 //抓牌响应，进入打牌状态
 function order100(data,userId){
   console.log("摸牌响应报文:"+JSON.stringify(data));
-  if(data.userId == userId){
+  if(data.nextUserId == userId){
     console.log("摸到一张 "+staticCardNames[data.operateCards[0]]);
     var userCardVm = data.mycardVm;
     if(userCardVm){
@@ -189,9 +190,13 @@ function order930(data,userId){
 
 function order207(data,userId){
   console.log("过牌指令集:"+JSON.stringify(data));
-  console.log(data.nextUserId == userId);
   if(data.nextUserId == userId){
-      kr.zhuaPai();
+    var userCardVm = data.mycardVm;
+    if(data.currentCommandType == 100 && userCardVm){
+        kr.enterDapai(userCardVm.cards);
+    }else{
+        kr.zhuaPai();
+    }
   }else{
       console.log("请等待其他玩家打牌");
   }
