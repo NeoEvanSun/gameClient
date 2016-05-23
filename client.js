@@ -247,7 +247,7 @@ function order930(data,userId){
     if(innerflag){
       effectExecute(data.commandTypeTips,userId);
     }else{
-      console.log("续连返回结果有误");
+      console.log("到玩家"+data.nextUserId+"玩了");
     }
   }else if(data.nextUserId == userId){
     if(data.currentUserId == userId && data.currentCommandType == 100){
