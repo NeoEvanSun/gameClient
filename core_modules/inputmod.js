@@ -33,6 +33,7 @@ var inputmod = function (wsObject){
         var params = cmd.split("-");
         wsObject.setUserId(params[0]);
         wsObject.xulian();
+        groupId = params[1];
       }else{
         console.log("请按提示输入正确格式");
         _this.connectAgain();
