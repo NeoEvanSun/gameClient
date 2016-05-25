@@ -275,4 +275,5 @@ function order950(data,userId){
 }
 function order910(data,userId){
   console.log("退出指令返回值:"+JSON.stringify(data));
+  console.log("玩家"+data.userId+"退出");
 }
