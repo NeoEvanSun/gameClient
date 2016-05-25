@@ -1,7 +1,7 @@
 var WebSocket = require('faye-websocket');
 var socket = function(execute){
-  var ws = new WebSocket.Client('ws://127.0.0.1:8080/ws');
-  //var ws = new WebSocket.Client('ws://45.78.9.171:8080/ws');
+  var ws = new WebSocket.Client('ws://45.78.9.171:8080/ws');
+  //var ws = new WebSocket.Client('ws://127.0.0.1:8080/ws');
   var userId = parseInt(Math.random()*10000)+"";
   ws.on("open",function(event){
   });
@@ -16,6 +16,7 @@ var socket = function(execute){
   //   return ws;
   // }
   //获取用户ID
+
   this.getUserId = function(){
     return userId;
   }
@@ -68,6 +69,16 @@ var socket = function(execute){
   }
   this.tingDaPai = function (groupId,cardIndex){
     ws.send('{"userId":'+userId+',"commandType":108,"content":{"groupId":'+groupId+',"operateCards":['+cardIndex+']}}');
+  }
+  this.ready = function (groupId){
+    var readyStr = '{"userId":'+userId+',"commandType":950,"content":{"groupId":'+groupId+'}}';
+    console.log("准备报文为:"+readyStr);
+    ws.send(readyStr);
+  }
+  this.quit = function (groupId){
+    var quitStr = '{"userId":'+userId+',"commandType":910,"content":{"groupId":'+groupId+'}}';
+    console.log("退出报文为:"+quitStr);
+    ws.send(quitStr);
   }
 }
 

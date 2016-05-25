@@ -204,6 +204,19 @@ var inputmod = function (wsObject){
     })
 
   }
+
+  //胡牌后可以选择的操作
+  this.afterHuAction = function (){
+    var _this = this;
+    var questionStr = "请选择操作(1.准备下一局游戏,2.退出):";
+    rl.question(questionStr,function(cmd){
+      switch (cmd) {
+        case "1": wsObject.ready(groupId); break;
+        case "2": wsObject.quit(groupId);break;
+        default: console.log("请输入正确的指令");_this.afterHuAction();
+      }
+    })
+  }
 }
 
 module.exports = inputmod;

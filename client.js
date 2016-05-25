@@ -36,8 +36,11 @@ function executeOrder (data,userId){
       case 106 : orderTingDa(data,userId);break;
       case 107 : orderTingDa(data,userId);break;
       case 108 : orderTingDaResult(data,userId);break;
+      case 206 : order206(data,userId);break;
       case 207 : order207(data,userId);break;
       case 930 : order930(data,userId);break;
+      case 950 : order950(data,userId);break;
+      case 910 : order910(data,userId);break;
       default : console.log("未定义指令结果:"+JSON.stringify(data));
     }
   }else{
@@ -260,4 +263,16 @@ function order930(data,userId){
     console.log("到玩家"+data.nextUserId+"玩了");
   }
 
+}
+
+function order206(data,userId){
+  console.log("胡牌指令返回值:"+JSON.stringify(data));
+  kr.afterHuAction();
+}
+
+function order950(data,userId){
+  console.log("准备指令返回值:"+JSON.stringify(data));
+}
+function order910(data,userId){
+  console.log("退出指令返回值:"+JSON.stringify(data));
 }
