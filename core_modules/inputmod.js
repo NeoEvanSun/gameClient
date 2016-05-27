@@ -12,7 +12,7 @@ var inputmod = function (wsObject){
 
   this.askAction = function (){
     var _this = this;
-  	rl.question("玩家["+wsObject.getUserId()+"],请问你想执行什么操作? (1.创建房间 2.加入房间 3.断线续连):",function(cmd){
+  	rl.question("玩家["+wsObject.getUserId()+"],请问你想执行什么操作? (1.创建房间 2.加入房间 3.断线续连 4.输入用户ID):",function(cmd){
   		if(cmd == 1){
   			//创建
   			wsObject.createGroup();
@@ -22,6 +22,8 @@ var inputmod = function (wsObject){
   			_this.joinGroup();
   		}else if(cmd == 3){
         _this.connectAgain();
+      }else if(cmd == 4){
+        _this.changeUserId();
       }
   	});
   }
@@ -38,6 +40,15 @@ var inputmod = function (wsObject){
         console.log("请按提示输入正确格式");
         _this.connectAgain();
       }
+    })
+  }
+
+  this.changeUserId = function(){
+    var _this = this;
+    rl.question("请输入Userid:",function(cmd){
+      wsObject.setUserId(cmd.trim());
+      console.log("玩家ID已被设为:"+wsObject.getUserId());
+      _this.askAction();
     })
   }
 
