@@ -19,13 +19,33 @@ var inputmod = function (wsObject){
   			_this.askAction();
   		}else if(cmd == 2){
   			//加入房间
-  			_this.joinGroup();
+  			_this.askGroupType();
   		}else if(cmd == 3){
         _this.connectAgain();
       }else if(cmd == 4){
         _this.changeUserId();
       }
   	});
+  }
+
+  this.askGroupType = function (){
+    var _this = this;
+    rl.question("请选择房间类型(1.初级场,2.中级场,3.高级场,4.vip场,0.返回上级操作):",function(cmd){
+      var command = cmd.trim();
+      if(command == 0 ){
+        _this.askAction();
+      }else if(/\d/.test(command)){
+        if(command == 4){
+          _this.joinGroup();
+        }else{
+          var roomType = parseInt(command)-1;
+          wsObject.joinFree(roomType);
+        }
+      }else{
+        console.log("请选择正确的指令");
+        _this.askGroupType();
+      }
+    })
   }
 
   this.connectAgain = function(){
@@ -54,8 +74,10 @@ var inputmod = function (wsObject){
 
   this.joinGroup = function(){
       var _this = this;
-  		rl.question("想加入房间？请输入房间号:",function(cmd){
-  			if(/\d+/.test(cmd)){
+  		rl.question("想加入房间？(0.返回上级操作)请输入房间号:",function(cmd){
+        if(cmd == 0){
+          _this.askGroupType();
+        }else if(/\d+/.test(cmd)){
   				console.log(cmd);
   				wsObject.join(cmd);
           groupId = cmd;
@@ -122,6 +144,7 @@ var inputmod = function (wsObject){
           questionStr += (i+1)+".";
           questionStr += staticCardNames[commandObject.effects[i][0]];
           questionStr += staticCardNames[commandObject.effects[i][1]];
+          console.log(commandObject.effects[i]);
           if(commandObject.effects[i][2]){
             questionStr += staticCardNames[commandObject.effects[i][2]];
           }

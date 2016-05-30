@@ -1,7 +1,7 @@
 var WebSocket = require('faye-websocket');
 var socket = function(execute){
-  var ws = new WebSocket.Client('ws://45.78.9.171:8080/ws');
-  //var ws = new WebSocket.Client('ws://127.0.0.1:8080/ws');
+  //var ws = new WebSocket.Client('ws://45.78.9.171:8080/ws');
+  var ws = new WebSocket.Client('ws://127.0.0.1:8080/ws');
   var userId = parseInt(Math.random()*10000)+"";
   ws.on("open",function(event){
   });
@@ -24,9 +24,13 @@ var socket = function(execute){
   this.createGroup = function(){
     ws.send('{"content":{"password":"123456","tranditional":true,"playRounds":4,"playRuleIds":[-1]},"userId":"'+userId+'","commandType":900}');
   }
-  //加入
+  //加入VIP房间
   this.join = function (groupId){
     ws.send('{"userId":'+userId+',"commandType":901,"content":{"groupId":'+groupId+',"roomType":3,"password":"123456"}}');
+  }
+  //加入免费房间
+  this.joinFree = function (roomType){
+    ws.send('{"userId":'+userId+',"commandType":901,"content":{"roomType":'+roomType+'}}');
   }
   //打牌
   this.dapai = function (groupId,cardIndex){
