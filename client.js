@@ -51,6 +51,7 @@ function executeOrder (data,userId){
 //创建结果
 function order900(data,userId){
   console.log("创建成功，房间ID:"+data.groupId);
+
 }
 //加入结果
 function order901(data,userId){
@@ -61,10 +62,14 @@ function order901(data,userId){
   for(var playerUserId in otherPlayerCardVms){
     console.log("玩家"+playerUserId+",加入");
   }
+  if(data.userId == userId){
+    kr.setGroupId(data.groupId);
+  }
 }
 //开局
 function order902(data,userId){
   console.log("开局成功"+JSON.stringify(data));
+  kr.setGroupId(data.groupId);
   //如果有提示性操作的话
   if(!data.allNoneTips && data.commandTypeTips){
     if(data.commandTypeTips.length ==0){
