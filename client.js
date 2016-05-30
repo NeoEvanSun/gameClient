@@ -54,6 +54,7 @@ function order900(data,userId){
 }
 //加入结果
 function order901(data,userId){
+  console.log("加入成功"+JSON.stringify(data));
   var otherPlayerCardVms = data.otherPlayerCardVms;
   console.log("\n--------------------\n");
   console.log("玩家"+userId+",加入");
@@ -272,6 +273,11 @@ function order206(data,userId){
 
 function order950(data,userId){
   console.log("准备指令返回值:"+JSON.stringify(data));
+  if(data.groupId){
+    kr.setGroupId(data.groupId);
+  }else{
+    console.log("准备结果集返回异常");
+  }
 }
 function order910(data,userId){
   console.log("退出指令返回值:"+JSON.stringify(data));

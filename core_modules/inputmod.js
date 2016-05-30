@@ -10,6 +10,10 @@ var inputmod = function (wsObject){
   var wsObject = wsObject;
   var groupId = "0000";
 
+  this.setGroupId = function (argGroupId){
+    groupId = argGroupId;
+  }
+
   this.askAction = function (){
     var _this = this;
   	rl.question("玩家["+wsObject.getUserId()+"],请问你想执行什么操作? (1.创建房间 2.加入房间 3.断线续连 4.输入用户ID):",function(cmd){
