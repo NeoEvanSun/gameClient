@@ -1,7 +1,7 @@
 var WebSocket = require('faye-websocket');
 var socket = function(execute){
-  //var ws = new WebSocket.Client('ws://45.78.9.171:8080/ws');
-  var ws = new WebSocket.Client('ws://127.0.0.1:8080/ws');
+  var ws = new WebSocket.Client('ws://45.78.9.171:8080/ws');
+  //var ws = new WebSocket.Client('ws://127.0.0.1:8080/ws');
   //var ws = new WebSocket.Client('ws://60.205.7.106:8080/ws');
   var userId = parseInt(Math.random()*10000)+"";
   ws.on("open",function(event){
@@ -84,6 +84,11 @@ var socket = function(execute){
     var quitStr = '{"userId":'+userId+',"commandType":910,"content":{"groupId":'+groupId+'}}';
     console.log("退出报文为:"+quitStr);
     ws.send(quitStr);
+  }
+  this.dismiss = function(groupId){
+    var disStr = '{"userId":'+userId+',"commandType":915,"content":{"groupId":'+groupId+',"agreeDisBand":true,"roomType":0}}';
+    console.log("解散报文为:"+disStr);
+    ws.send(disStr);
   }
 }
 

@@ -10,6 +10,7 @@ kr.askAction();
 
 function execute (dataString,userId){
   if(dataString){
+    console.log(dataString);
     var jsonData = formatData(dataString);
     if(jsonData && jsonData.ret){
       executeOrder(jsonData.data,userId);
@@ -31,7 +32,8 @@ function executeOrder (data,userId){
       case 101 : order101(data,userId);break;
       case 102 : orderChiPeng(data,userId);break;
       case 103 : orderChiPeng(data,userId);break;
-      case 104 : order104(data,userId);break;
+      case 1040 : order104(data,userId);break;
+      case 1041 : order104(data,userId);break;
       case 105 : orderTingDa(data,userId);break;
       case 106 : orderTingDa(data,userId);break;
       case 107 : orderTingDa(data,userId);break;
@@ -287,4 +289,7 @@ function order950(data,userId){
 function order910(data,userId){
   console.log("退出指令返回值:"+JSON.stringify(data));
   console.log("玩家"+data.userId+"退出");
+}
+function order915(data,userId){
+
 }
