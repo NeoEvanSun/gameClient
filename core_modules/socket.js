@@ -23,7 +23,7 @@ var socket = function(execute){
   }
   //创建组
   this.createGroup = function(){
-    ws.send('{"content":{"password":"123456","huTing":{"supportLou": true,"supportKanScore": true, "redZhongFly": true,"beforeAfterCut": true},"tranditional":true,"playRounds":4,"playRuleIds":[-1]},"userId":"'+userId+'","commandType":900}');
+    ws.send('{"content":{"password":"123456","huTing":{"supportLou": true,"supportKanScore": true, "redZhongFly": true,"beforeAfterCut": true},"tranditional":true,"productType":4,"playRuleIds":[-1]},"userId":"'+userId+'","commandType":900}');
   }
   //加入VIP房间
   this.join = function (groupId){
