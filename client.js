@@ -135,19 +135,23 @@ function order101(data,userId){
 function order100(data,userId){
   console.log("摸牌响应报文:"+JSON.stringify(data));
   if(data.nextUserId == userId){
-    console.log("摸到一张 "+staticCardNames[data.operateCards[0]]);
-    var userCardVm = data.mycardVm;
-    if(userCardVm){
-      var playerInfo = new PlayerInfo(userCardVm);
-      playerInfo.showStatus();
-      var innerflag = false;
-      for(var pro in data.commandTypeTips){
-        innerflag = true;
-      }
-      if(innerflag){
-          effectExecute(data.commandTypeTips,userId);
-      }else{
-          kr.enterDapai(userCardVm.cards);
+    if(data.mycardVm.tinged){
+      console.log("等待自动打牌");
+    }else{
+      console.log("摸到一张 "+staticCardNames[data.operateCards[0]]);
+      var userCardVm = data.mycardVm;
+      if(userCardVm){
+        var playerInfo = new PlayerInfo(userCardVm);
+        playerInfo.showStatus();
+        var innerflag = false;
+        for(var pro in data.commandTypeTips){
+          innerflag = true;
+        }
+        if(innerflag){
+            effectExecute(data.commandTypeTips,userId);
+        }else{
+            kr.enterDapai(userCardVm.cards);
+        }
       }
     }
   }else{
