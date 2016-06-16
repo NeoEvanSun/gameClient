@@ -121,7 +121,11 @@ function order101(data,userId){
     }
   }else if(userId == data.nextUserId){
     //如果自己是下一个打牌的人
-    kr.zhuaPai();
+    if(data.mycardVm.tinged){
+      console.log("已上听，自动抓打牌");
+    }else{
+      kr.zhuaPai();
+    }
   }else{
     seeSelf(data);
     console.log("请等待其他玩家打牌");
