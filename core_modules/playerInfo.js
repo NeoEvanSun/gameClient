@@ -73,7 +73,7 @@ var PlayerInfo = function(userCardVm){
   var auto = userCardVm.auto;
 
   this.showStatus = function(){
-    var str = "当前玩家坐位:"+postionName+"风 ";
+    var str = "当前玩家【"+userCardVm.userId+"】坐位:"+postionName+"风 ";
     str += " 牌数 x"+cardsNum;
     if(zhuang){
       str += " 庄家 ";
