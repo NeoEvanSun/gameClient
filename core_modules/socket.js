@@ -1,7 +1,8 @@
 var WebSocket = require('faye-websocket');
 var socket = function(execute){
-  var ws = new WebSocket.Client('ws://45.78.9.171:8080/ws');
+  //var ws = new WebSocket.Client('ws://45.78.9.171:8080/ws');
   //var ws = new WebSocket.Client('ws://127.0.0.1:8080/ws');
+  var ws = new WebSocket.Client('ws://101.201.53.236:8080/ws');
   //var ws = new WebSocket.Client('ws://60.205.7.106:8080/ws');
   var userId = parseInt(Math.random()*10000)+"";
   ws.on("open",function(event){

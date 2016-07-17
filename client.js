@@ -241,7 +241,7 @@ function seeSelf (data){
 
 function orderTingDa(data,userId){
   console.log("听打指令:"+JSON.stringify(data));
-  if(data.operateCards){
+  if(data.operateCards && data.nextUserId == userId){
     kr.tingDaPai(data.operateCards);
   }else{
    console.log("返回值错误");
